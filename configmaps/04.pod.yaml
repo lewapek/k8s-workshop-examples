@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-cm-custom
+  labels:
+    app: cm
+spec:
+  containers:
+  - name: busybox
+    image: busybox:1.32
+    command: ['sh', '-c', 'echo "Hello $NAME, your color is $COLOR" && sleep 3600']
+    env:
+    - name: NAME
+      valueFrom:
+        configMapKeyRef:
+          name: configmap
+          key: name
+    # below env should also come from config map
+    - name: COLOR
+      value: blue
+ 
+# you can also try adding another envs
+

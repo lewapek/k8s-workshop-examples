@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workshop-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: workshop
+  template:
+    metadata:
+      labels:
+        app: workshop
+    spec:
+      containers:
+      - image: "lewap/workshop-app:0.1.3"
+        name: workshop-app
+        env:
+        - name: PORT
+          value: "8080"
+        - name: NAME
+          value: "Hello from k8s!"
+        - name: BUSY_INDICATOR
+          value: "0.3"
+        resources:
+          limits:
+            cpu: 200m
+            memory: 250Mi
+          requests:
+            cpu: 50m
+            memory: 125Mi
+        readinessProbe:
+          httpGet:
+            path: /busy
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 2
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+

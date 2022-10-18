@@ -1,0 +1,32 @@
+# task - add env variable BUSY_INDICATOR to the pod template (spec.containers.env)
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wa
+  labels:
+    app: wa
+spec:
+  containers:
+  - name: wa
+    image: lewap/workshop-app:0.0.2
+    resources:
+      requests:
+        memory: "125Mi"
+        cpu: "150m"
+      limits:
+        memory: "250Mi"
+        cpu: "300m"
+    readinessProbe:
+      httpGet:
+        path: /busy
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    livenessProbe:
+      httpGet:
+        path: /health
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 5
+

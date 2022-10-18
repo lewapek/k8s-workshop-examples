@@ -1,0 +1,2 @@
+kubectl run bbc --restart Never --image radial/busyboxplus:curl -- /bin/sh -c "while [ 1 ]; do sleep 1000; done"
+
